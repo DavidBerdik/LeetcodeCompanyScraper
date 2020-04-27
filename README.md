@@ -1,5 +1,5 @@
 ## To install dependencies:
-`pip3 install -r requirements.txt`
+`pip install -r requirements.txt`
 
 ## To run:
 `python scrape.py`
