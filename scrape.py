@@ -19,7 +19,8 @@ def main():
     login_url = "https://leetcode.com/accounts/login/"
 
     chrome_opts = webdriver.ChromeOptions()
-    #chrome_opts.add_argument("--headless")
+    chrome_opts.add_argument("--headless")
+    chrome_opts.add_argument("--log-level=3")
 
     opts = FirefoxOptions()
     #opts.add_argument("--headless")
@@ -29,7 +30,7 @@ def main():
     companies = text_file.read().split('\n')
     text_file.close()
 
-    driver = webdriver.Chrome(executable_path=r'./chromedriver', chrome_options=opts)
+    driver = webdriver.Chrome(executable_path=r'chromedriver.exe', options=chrome_opts)
     driver.maximize_window()
     driver.get(login_url)
 
@@ -56,12 +57,13 @@ def main():
         periodNames = ['6months', '1year', '2year', 'alltime']
         periodSelectors = ["react-select-2--option-0", "react-select-2--option-1", "react-select-2--option-2", "react-select-2--option-3" ]
         for period_selector, period_name in zip(periodSelectors, periodNames):
+            print("Scraping", company, "-", period_name)
             while True:
                 try:
                     driver.find_element_by_class_name('Select-control').click();
                     break
                 except:
-                    print("Dropdown menu not found. Retrying.")
+                    #print("Dropdown menu not found. Retrying.")
                     # quick hack to make the question bubble go away
                     try:
                         driver.find_element_by_id('app').click();
@@ -74,7 +76,7 @@ def main():
                 driver.find_element_by_id(period_selector).click()
             except:
                 try:
-                     print("Dropdown menu item not found. Continuing.")
+                     #print("Dropdown menu item not found. Continuing.")
                      # quick hack to make the dropdown go away
                      driver.find_element_by_id('app').click();
                      continue
